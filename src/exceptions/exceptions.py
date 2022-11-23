@@ -1,0 +1,2 @@
+class DataPathException(Exception):
+    pass
