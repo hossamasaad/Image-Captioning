@@ -27,7 +27,7 @@ This data consists of an image caption corpus consisting of 158,915 crowdsourced
 │   ├── processed
 │   └── raw
 │       └── flickr30k_images
-│           ├── images
+│           └── images
 ├── models
 ├── notebooks
 │   └── Image Captioning.ipynb
@@ -56,11 +56,9 @@ This data consists of an image caption corpus consisting of 158,915 crowdsourced
 │   └── visualization
 │       ├── __init__.py
 │       └── visualize.py
-├── setup.py
 ├── requirements.txt
 ├── README.md
-├── LICENSE
-└── tox.ini
+└── LICENSE
 ```
 ## Model Archtichtures
 
