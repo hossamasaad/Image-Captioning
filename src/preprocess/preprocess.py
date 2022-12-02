@@ -5,7 +5,7 @@ import pandas as pd
 
 sys.path.append(os.path.realpath('..'))
 
-from exceptions import DataPathException
+from src.exceptions import DataPathException
 
 class Preprocess:
 

@@ -1,5 +1,5 @@
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Dense, Input, LSTM, Add, Dropout, Embedding
+from tensorflow.keras.layers import Dense, LSTM, Add, Dropout, Embedding, Reshape
 
 class MergeDecoder(Model):
 
@@ -9,7 +9,6 @@ class MergeDecoder(Model):
         self.dropout1 = Dropout(0.5)
         self.dense1 =  Dense(256, activation='relu')
 
-        self.input2 = Input(shape=(max_length,))
         self.Embedding = Embedding(vocab_size, embbeding_dim, mask_zero=True)
         self.dropout2 = Dropout(0.5)
         self.LSTM = LSTM(256)
@@ -43,17 +42,16 @@ class InjectDecoder(Model):
 
     def __init__(self, vocab_size, embbeding_dim, max_length) -> None:
         super(InjectDecoder, self).__init__(name='decoder')
-
+        
+        self.dense1 =  Dense(4480, activation='relu')
         self.dropout1 = Dropout(0.5)
-        self.dense1 =  Dense(256, activation='relu')
+        self.reshape = Reshape(target_shape=(70, 64))
 
-        self.input2 = Input(shape=(max_length,))
         self.Embedding = Embedding(vocab_size, embbeding_dim, mask_zero=True)
         self.dropout2 = Dropout(0.5)
 
-        self.add = Add()
+        self.add = Add()        
         self.LSTM = LSTM(256)
-
         self.dense2 = Dense(256, activation='relu')
         self.dense3 = Dense(vocab_size, activation='softmax')
     
@@ -62,16 +60,16 @@ class InjectDecoder(Model):
         InputA = inputs[0]
         InputB = inputs[1]
 
-        A = self.dropout1(InputA)
-        A = self.dense1(A)
-
+        A = self.dense1(InputA)
+        A = self.dropout1(A)
+        A = self.reshape(A)
+        
         B = self.Embedding(InputB)
         B = self.dropout2(B)
-
+        
         inject = self.add([A, B])
-
+        
         decoder = self.LSTM(inject)
-        decoder = self.dense2(inject)
         outputs = self.dense3(decoder)
 
         return outputs

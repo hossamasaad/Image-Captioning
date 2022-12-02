@@ -37,9 +37,9 @@ class CaptionCleaner:
         """
         
         new_data = {}
-        for key, cap in tqdm(captions.items()):
+        for key, caps in tqdm(captions.items()):
             new_captions = []
-            for caption in captions:
+            for caption in caps:
                 # removing symbols and numbers
                 caption = re.sub(r'[!@#.$(),"%^*?:;~`0-9]', ' ', caption)
                 caption = re.sub(r'[[]]', ' ', caption)
